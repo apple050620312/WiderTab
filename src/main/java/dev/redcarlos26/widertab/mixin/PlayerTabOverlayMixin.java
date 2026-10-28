@@ -35,7 +35,7 @@ public class PlayerTabOverlayMixin {
     @ModifyConstant(method = "extractRenderState", constant = @Constant(intValue = 20))
     private int rowsForScreenHeight(int vanillaRows) {
         int guiHeight = Minecraft.getInstance().getWindow().getGuiScaledHeight();
-        int rowsThatFit = (guiHeight - 40) / 9;
+        int rowsThatFit = (guiHeight - 120) / 9;
         return Math.max(vanillaRows, rowsThatFit);
     }
 }
