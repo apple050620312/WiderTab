@@ -11,13 +11,21 @@ package dev.redcarlos26.widertab.mixin;
 
 import net.minecraft.client.gui.components.PlayerTabOverlay;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.Constant;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Redirect;
+
+import java.util.stream.Stream;
 
 @Mixin(PlayerTabOverlay.class)
 public class PlayerTabOverlayMixin {
-    @ModifyConstant(constant = @Constant(longValue = 80L), method = "getPlayerInfos")
-    private long modifyCount(long count) {
-        return 180;
+    @Redirect(
+        method = "getPlayerInfos",
+        at = @At(
+            value = "INVOKE",
+            target = "Ljava/util/stream/Stream;limit(J)Ljava/util/stream/Stream;"
+        )
+    )
+    private <T> Stream<T> removePlayerLimit(Stream<T> players, long ignoredLimit) {
+        return players;
     }
 }
